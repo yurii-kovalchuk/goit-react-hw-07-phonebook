@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { RiDeleteBin2Line } from 'react-icons/ri';
+import { MdDelete } from 'react-icons/md';
 import { BsTelephoneFill } from 'react-icons/bs';
 import { Item, NameWrapper, Letters, Text, Phone, Btn } from './Contact.styled';
 
-export const Contact = ({ info: { id, name, number }, onDelete }) => {
+export const Contact = ({ info: { id, name, phone }, onDelete }) => {
   return (
     <Item>
       <NameWrapper>
@@ -17,7 +17,7 @@ export const Contact = ({ info: { id, name, number }, onDelete }) => {
         <div>
           <Text>{name}</Text>
           <Phone>
-            <BsTelephoneFill size={12} /> {number}
+            <BsTelephoneFill size={12} /> {phone}
           </Phone>
         </div>
       </NameWrapper>
@@ -27,17 +27,17 @@ export const Contact = ({ info: { id, name, number }, onDelete }) => {
           onDelete(id);
         }}
       >
-        <RiDeleteBin2Line size={14} />
+        <MdDelete size={14} />
       </Btn>
     </Item>
   );
 };
 
 Contact.propTypes = {
-  info: PropTypes.exact({
+  info: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
   }).isRequired,
   onDelete: PropTypes.func.isRequired,
 };

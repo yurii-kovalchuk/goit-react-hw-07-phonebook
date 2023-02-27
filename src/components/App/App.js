@@ -1,17 +1,31 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact, deleteContact } from 'components/redux/contactsSlice';
+import { useEffect } from 'react';
+import { deleteContact } from 'components/redux/contactsSlice';
 import { changeValue } from 'components/redux/filterSlice';
 import { Filter } from 'components/Filter/Filter';
 import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
 import { AppWrapper } from './App.styled';
+import {
+  getContacts,
+  getError,
+  getFilter,
+  getIsLoading,
+} from 'components/redux/selectors';
+import { addContact, fetchContacts } from 'components/redux/operations';
 
 export const App = () => {
-  const contacts = useSelector(state => state.contacts.items);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
   const dispatch = useDispatch();
 
-  const addContacts = (name, number, id) => {
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  const addContacts = (name, phone) => {
     if (
       contacts.find(
         contact => contact.name.toLowerCase() === name.toLowerCase()
@@ -19,7 +33,7 @@ export const App = () => {
     ) {
       alert(`${name} is already in contacts`);
     } else {
-      dispatch(addContact(name, number, id));
+      dispatch(addContact({ name, phone }));
     }
   };
 
@@ -46,11 +60,8 @@ export const App = () => {
       <ContactForm addContacts={addContacts} />
       <h2>Contacts</h2>
       <Filter value={filter} onChange={updateFilter} />
-      {vivsibleContacts.length !== 0 ? (
-        <ContactList contacts={vivsibleContacts} onDelete={deleteContacts} />
-      ) : (
-        <h3>Your contacts will be here</h3>
-      )}
+      {isLoading && !error && <b>Request in progress...</b>}
+      <ContactList contacts={vivsibleContacts} onDelete={deleteContacts} />
     </AppWrapper>
   );
 };

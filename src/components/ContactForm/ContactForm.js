@@ -1,5 +1,4 @@
 import { Formik } from 'formik';
-import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import { FormWrapper, Label, Input, Btn } from './ContactForm.styled';
 
@@ -9,7 +8,7 @@ export const ContactForm = ({ addContacts }) => {
     number: '',
   };
   const onSubmit = ({ name, number }, { resetForm }) => {
-    addContacts(name, number, nanoid());
+    addContacts(name, number);
     resetForm();
   };
 
