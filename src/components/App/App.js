@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { deleteContact } from 'components/redux/contactsSlice';
 import { changeValue } from 'components/redux/filterSlice';
 import { Filter } from 'components/Filter/Filter';
 import { ContactForm } from '../ContactForm/ContactForm';
@@ -12,7 +11,11 @@ import {
   getFilter,
   getIsLoading,
 } from 'components/redux/selectors';
-import { addContact, fetchContacts } from 'components/redux/operations';
+import {
+  addContact,
+  fetchContacts,
+  deleteContact,
+} from 'components/redux/operations';
 
 export const App = () => {
   const contacts = useSelector(getContacts);
